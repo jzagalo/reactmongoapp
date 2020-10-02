@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends  Component { 
+
+ 
+  render(){  
+    
+
+  var rows = this.props.data.map(function(row, index){
+    return(
+      <tr key={index}>
+        <td>{row.when}</td>
+        <td>{row.who}</td>
+        <td>{row.description}</td>
+      </tr>
+    );
+  });
+
+  var headings = this.props.headings.map((header, index) => {   
+    return (<th key={index}>{ header }</th>);
+  })
+    
+    return (
+      <table>
+        <thead>
+          <tr> 
+            { headings }
+          </tr>
+        </thead>
+        <tbody>
+            {rows}
+        </tbody>
+      </table>
+    );
+
+  }
 }
 
 export default App;
