@@ -1,36 +1,42 @@
 import React, { Component } from 'react';
 import './App.css';
 
+function Heading({ heading }){
+  return (
+    <th>{ heading }</th>
+  );
+}
+
+function Row({ changeSet }){
+  return(
+    <tr>
+       <td>{ changeSet.when }</td>
+       <td>{ changeSet.who }</td>
+       <td>{ changeSet.description }</td>
+    </tr>     
+  );
+}
+
+function Headings({ headings }){
+  return(<tr> 
+    {headings.map((head, index) =>  <Heading  key={index}  heading={head} />)}
+  </tr>)   
+}
+
+function Rows({ changeSets }){
+  return changeSets.map((row, index) =>  <Row key={index} changeSet={row} />);  
+}
 
 class App extends  Component { 
-
  
-  render(){  
-    
-
-  var rows = this.props.data.map(function(row, index){
-    return(
-      <tr key={index}>
-        <td>{row.when}</td>
-        <td>{row.who}</td>
-        <td>{row.description}</td>
-      </tr>
-    );
-  });
-
-  var headings = this.props.headings.map((header, index) => {   
-    return (<th key={index}>{ header }</th>);
-  })
-    
+  render(){          
     return (
-      <table>
-        <thead>
-          <tr> 
-            { headings }
-          </tr>
-        </thead>
+      <table>    
+          <thead>
+            <Headings headings={this.props.headings} />
+          </thead>        
         <tbody>
-            {rows}
+           <Rows changeSets={this.props.data} />
         </tbody>
       </table>
     );
