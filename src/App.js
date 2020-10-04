@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import moment from "moment";
 import './App.css';
+
+var headingStyle = {
+  backgroundColor: 'FloralWhite',
+  fontSize: '19px'
+};
+
 function RecentTable(props){
   return(
     <table>
@@ -12,7 +20,7 @@ function RecentTable(props){
 
 function Heading({ heading }){
   return (
-    <th>{ heading }</th>
+    <th style={headingStyle}>{ heading }</th>
   );
 }
 
@@ -44,17 +52,50 @@ function Rows({ changeSets }){
     );
 }
 
-class App extends  Component { 
- 
+class App extends  Component {    
+
+  constructor(props){
+    super(props);
+    this.state = {
+      changeSets: [],
+      headings: ['Updated At', 'Author', 'Change']
+    };
+  }
+
+  mapOpenLibraryDataToChangeSet(data){
+    return data.map((change, index) => {
+      return {
+          "when": moment(change.timestamp).fromNow(true),
+          "who" : change.author.key,
+          "description": change.comment
+      }
+    })
+  }
+
+  componentDidMount(){
+    fetch('http://openlibrary.org/recentchanges.json?limit=10')
+    .then(response => response.json())
+    .then(data => {
+      var changeSets = this.mapOpenLibraryDataToChangeSet(data);
+      this.setState({ changeSets: changeSets });    
+    });
+
+  }
+
   render(){          
     return (
       <RecentTable>           
          <Headings headings={this.props.headings} />        
-         <Rows changeSets={this.props.data} />        
+         <Rows changeSets={ this.state.changeSets } />        
       </RecentTable>
     );
 
   }
 }
+
+App.propTypes = {
+  headings: PropTypes.array,
+  changeSets : PropTypes.array,
+};
 
 export default App;
