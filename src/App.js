@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from "moment";
+import Input from "./components/Input";
+import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
 var headingStyle = {
-  backgroundColor: 'FloralWhite',
-  fontSize: '19px'
+ /*  backgroundColor: 'FloralWhite',
+  fontSize: '19px' */
 };
 
 function RecentTable(props){
   return(
-    <table>
+    <table className="table table-striped">
         { props.children }
     </table>
   );
@@ -25,34 +27,35 @@ function Heading({ heading }){
 }
 
 function Row({ changeSet }){
+   var trStyle = {/*   */};
   return(
-    <tr>
+    <tr style={trStyle}>
        <td>{ changeSet.when }</td>
        <td>{ changeSet.who }</td>
        <td>{ changeSet.description }</td>
-    </tr>     
+    </tr>
   );
 }
 
 function Headings({ headings }){
   return(
     <thead>
-      <tr> 
+      <tr>
         {headings.map((head, index) =>  <Heading  key={index}  heading={head} />)}
       </tr>
   </thead>
-  )   
+  )
 }
 
 function Rows({ changeSets }){
-  return ( 
+  return (
       <tbody>
-          { changeSets.map((row, index) =>  <Row key={index} changeSet={row} />) } 
-      </tbody> 
+          { changeSets.map((row, index) =>  <Row key={index} changeSet={row} />) }
+      </tbody>
     );
 }
 
-class App extends  Component {    
+class App extends  Component {
 
   constructor(props){
     super(props);
@@ -77,16 +80,17 @@ class App extends  Component {
     .then(response => response.json())
     .then(data => {
       var changeSets = this.mapOpenLibraryDataToChangeSet(data);
-      this.setState({ changeSets: changeSets });    
+      this.setState({ changeSets: changeSets });
     });
 
   }
 
-  render(){          
+  render(){
     return (
-      <RecentTable>           
-         <Headings headings={this.props.headings} />        
-         <Rows changeSets={ this.state.changeSets } />        
+      <RecentTable>
+         <Headings headings={this.props.headings} />
+         <Rows changeSets={ this.state.changeSets } />
+         <Input />
       </RecentTable>
     );
 

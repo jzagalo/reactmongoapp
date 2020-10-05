@@ -32,8 +32,7 @@ table, table tr {
   width: 100%;
 }
 
-table td {
-  width: 33%;
+table td, table th  {
   text-align:center;
 }
 
