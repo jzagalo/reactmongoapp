@@ -14,9 +14,9 @@ export default class Input extends Component {
     }
 
     render() {
-        console.log(this.state.name)
         return (
-            <input type="text" value={this.state.name} onChange={(event) => {this.setState({ name: event.target.value })}} />
+            <input  type="text" value={this.state.name}
+                    onChange={(event) => {this.setState({ name: event.target.value }) }} />
         )
     }
 }

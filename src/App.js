@@ -1,59 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from "moment";
-import Input from "./components/Input";
+//import Input from "./components/Input";
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
+import BookStore from './components/BookStore';
 
-var headingStyle = {
- /*  backgroundColor: 'FloralWhite',
-  fontSize: '19px' */
-};
-
-function RecentTable(props){
-  return(
-    <table className="table table-striped">
-        { props.children }
-    </table>
-  );
-
-}
-
-
-function Heading({ heading }){
-  return (
-    <th style={headingStyle}>{ heading }</th>
-  );
-}
-
-function Row({ changeSet }){
-   var trStyle = {/*   */};
-  return(
-    <tr style={trStyle}>
-       <td>{ changeSet.when }</td>
-       <td>{ changeSet.who }</td>
-       <td>{ changeSet.description }</td>
-    </tr>
-  );
-}
-
-function Headings({ headings }){
-  return(
-    <thead>
-      <tr>
-        {headings.map((head, index) =>  <Heading  key={index}  heading={head} />)}
-      </tr>
-  </thead>
-  )
-}
-
-function Rows({ changeSets }){
-  return (
-      <tbody>
-          { changeSets.map((row, index) =>  <Row key={index} changeSet={row} />) }
-      </tbody>
-    );
-}
 
 class App extends  Component {
 
@@ -87,11 +39,7 @@ class App extends  Component {
 
   render(){
     return (
-      <RecentTable>
-         <Headings headings={this.props.headings} />
-         <Rows changeSets={ this.state.changeSets } />
-         <Input />
-      </RecentTable>
+      <BookStore />
     );
 
   }
