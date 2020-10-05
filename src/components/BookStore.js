@@ -9,14 +9,17 @@ import Success from './Success'
 
 export default class BookStore extends Component {
 
-
-
     constructor(props){
         super(props);
         this.state = {
             currentStep: 1,
             formValues: {},
+            cartTimeOut: 60*15,
         };
+    }
+
+    updateCartTimeOut(timeout){
+        this.setState({ cartTimeOut: timeout });
     }
 
     updateFormData(formData){
