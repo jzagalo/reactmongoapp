@@ -14,12 +14,16 @@ export default class BookStore extends Component {
         this.state = {
             currentStep: 1,
             formValues: {},
-            cartTimeOut: 60*15,
+            cartTimeOut: 60*2,
         };
     }
 
     updateCartTimeOut(timeout){
         this.setState({ cartTimeOut: timeout });
+    }
+
+    alertCartTimeout(){
+        this.setState({ currentStep: 10 });
     }
 
     updateFormData(formData){
@@ -32,8 +36,7 @@ export default class BookStore extends Component {
     handleSubmit(event){
         event.preventDefault();
         this.props.updateFormData({ selectedBooks: this.state.selectedBooks });
-    }
-
+    }   
 
     render() {
 
@@ -41,9 +44,17 @@ export default class BookStore extends Component {
             case 1:
                 return <BookList updateFormData={this.updateFormData.bind(this)} />
             case 2:
-                return <ShippingDetails updateFormData={ this.updateFormData.bind(this) } />
+                return <ShippingDetails updateFormData={this.updateFormData.bind(this)} 
+                        cartTimeOut={this.state.cartTimeOut  }
+                        updateCartTimeOut={ this.updateCartTimeOut.bind(this)}
+                        alertCartTimeout={this.alertCartTimeout.bind(this)}
+                    />
             case 3:
-                return <DeliveryDetails updateFormData={ this.updateFormData.bind(this) } />
+                return <DeliveryDetails updateFormData={ this.updateFormData.bind(this) } 
+                        cartTimeOut={this.state.cartTimeOut}
+                        updateCartTimeOut={this.updateCartTimeOut.bind(this) }  
+                        alertCartTimeout={this.alertCartTimeout}
+                    />
             case 4:
                 return <Confirmation data={ this.state.formValues } updateFormData={ this.updateFormData.bind(this) }  />
             case 5:

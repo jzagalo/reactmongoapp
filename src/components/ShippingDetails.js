@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 
 
-export default class ShippingDetails extends Component {
+class ShippingDetails extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -10,9 +10,10 @@ export default class ShippingDetails extends Component {
             contactNumber: '',
             shippingAddress: '',
             error: false,
+            cartTimeOut: this.props.cartTimeOut,
         };
         this.inputRef = React.createRef();
-
+        this.intervals = [];         
     }
 
     _renderError() {
@@ -37,6 +38,10 @@ export default class ShippingDetails extends Component {
             return true;
     }
 
+    componentDidMount() {        
+        this.setInterval(this.decrementCartTimer.bind(this), 1000);           
+    }
+
     handleSubmit(event){
         event.preventDefault();
         var formData = {
@@ -49,6 +54,24 @@ export default class ShippingDetails extends Component {
             this.props.updateFormData(formData);
         }
     }
+       
+    setInterval(){
+        this.intervals.push(setInterval.apply(null, arguments))
+    }     
+
+    decrementCartTimer(){
+       
+        if (this.state.cartTimeOut === 0) {
+            this.props.alertCartTimeout();
+            return;
+        } 
+        this.setState({ cartTimeOut: this.state.cartTimeOut - 1 });
+    }
+
+    componentWillUnmount(){
+        this.intervals.map(clearInterval);
+        this.props.updateCartTimeOut(this.state.cartTimeOut);
+    }
 
     handleChange(event, attribute){
         var newState = this.state;
@@ -58,6 +81,8 @@ export default class ShippingDetails extends Component {
 
     render() {
         var errorMessage = this._renderError();
+        var minutes = Math.floor(this.state.cartTimeOut / 60);
+        var seconds = this.state.cartTimeOut - minutes * 60;
 
         return (
             <div>
@@ -96,7 +121,13 @@ export default class ShippingDetails extends Component {
 
                     </form>
                 </div>
+                <div className="well">
+                        <span className="glyphicon glyphicon-time" ariahidden="true"></span> You have {minutes} Minutes, {seconds} Seconds,
+                        before confirming order
+                </div>
             </div>
         )
     }
 }
+
+export default ShippingDetails;

@@ -1,7 +1,5 @@
 var SetIntervalMixin = {
-    componentWillMount: function(){
-        this.intervals = [];
-    },
+    intervals: [],    
     setInterval: function(){
         this.intervals.push(setInterval.apply(null, arguments))
     },
