@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from "prop-types"
 
 
 
@@ -85,7 +86,7 @@ class ShippingDetails extends Component {
         var seconds = this.state.cartTimeOut - minutes * 60;
 
         return (
-            <div>
+            <div id="modalAlertTimeOut">
                 <h1>Enter your shipping Information</h1>
                 {errorMessage}
                 <div>
@@ -129,5 +130,11 @@ class ShippingDetails extends Component {
         )
     }
 }
+
+ShippingDetails.propTypes = {
+    alertCartTimeout: PropTypes.func.isRequired,
+    updateCartTimeOut: PropTypes.func.isRequired,
+    cartTimeOut: PropTypes.number.isRequired
+};
 
 export default ShippingDetails;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import PropTypes from "prop-types";
 
 class DeliveryDetails extends Component {
 
@@ -8,7 +8,8 @@ class DeliveryDetails extends Component {
         this.state = {
             deliveryOption: 'Primary',
             cartTimeOut: this.props.cartTimeOut,
-        };     
+        }; 
+
         this.intervals = [];   
     }
 
@@ -21,18 +22,19 @@ class DeliveryDetails extends Component {
     }   
 
     componentDidMount() {        
-        this.setInterval(this.decrementCartTimer.bind(this), 1000);           
+        this.setInterval(this.decrementCartTimer, 1000);           
     }
 
-    decrementCartTimer(){       
+    decrementCartTimer = () => {       
         if (this.state.cartTimeOut === 0) {
             this.props.alertCartTimeout();
             return;
         } 
         this.setState({ cartTimeOut: this.state.cartTimeOut - 1 });
-    }
+    };
 
     componentWillReceiveProps(newProps){
+        console.log(newProps);
         this.setState({ cartTimeOut: newProps.cartTimeOut });
     }
 
@@ -47,14 +49,14 @@ class DeliveryDetails extends Component {
     }
 
     render() {
-
+       
         var minutes = Math.floor(this.state.cartTimeOut/60);
         var seconds = this.state.cartTimeOut - (minutes * 60);
 
         return (
             <div>
                 <h1>Choose your Delivery Options here.</h1>
-                <div style={{ width: 200 }}>
+                <div style={{ width: 300 }}>
                     <form onSubmit={this.handleSubmit.bind(this)}>
                         <div className="radio">
                             <label>
@@ -89,5 +91,11 @@ class DeliveryDetails extends Component {
         )
     }
 }
+
+DeliveryDetails.propTypes = {
+    alertCartTimeout: PropTypes.func.isRequired,
+    updateCartTimeOut: PropTypes.func.isRequired,
+    cartTimeOut: PropTypes.number.isRequired
+};
 
 export default DeliveryDetails;

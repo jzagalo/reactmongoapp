@@ -4,6 +4,8 @@ import DeliveryDetails from './DeliveryDetails'
 import ShippingDetails from './ShippingDetails'
 import Confirmation from './Confirmation'
 import Success from './Success'
+import ModalAlertTimeOut from './ModalAlertTimeOut'
+import ReactDOM from 'react-dom'
 
 
 
@@ -14,7 +16,7 @@ export default class BookStore extends Component {
         this.state = {
             currentStep: 1,
             formValues: {},
-            cartTimeOut: 60*2,
+            cartTimeOut: 15,
         };
     }
 
@@ -22,8 +24,9 @@ export default class BookStore extends Component {
         this.setState({ cartTimeOut: timeout });
     }
 
-    alertCartTimeout(){
-        this.setState({ currentStep: 10 });
+    alertCartTimeout = () => {
+        ReactDOM.render(<ModalAlertTimeOut />, document.getElementById('modalAlertTimeOut'));
+        this.setState({ currentStep: 1, formValues: {}, cartTimeOut: 1 });
     }
 
     updateFormData(formData){
@@ -59,6 +62,8 @@ export default class BookStore extends Component {
                 return <Confirmation data={ this.state.formValues } updateFormData={ this.updateFormData.bind(this) }  />
             case 5:
                 return <Success  data={this.state.formValues} />
+            case 10:
+                return <div><h2> Your cart timed out, please try again</h2></div>
             default:
                 return <BookList updateFormData={this.updateFormData.bind(this)} />;
         }
